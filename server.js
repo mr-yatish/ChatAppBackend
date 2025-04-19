@@ -18,7 +18,7 @@ const app = express();
 
 // Health check rout
 app.use("/", (req, res) => {
-  res.status(200).send("Server is running");
+  res.status(200).send(`Server is running successfully! ${new Date().toLocaleDateString()}`); 
 });
 
 // Create an HTTP server
