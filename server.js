@@ -16,8 +16,8 @@ connectDB();
 // Initialize Express app
 const app = express();
 
-// Health check rout
-app.use("/", (req, res) => {
+// Health check route 
+app.get("/", (req, res) => {
   res.status(200).send(`Server is running successfully! ${new Date()}`); 
 });
 
