@@ -121,9 +121,9 @@ const getUserByid = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const userId = req.params.id; // Taking user ID from request parameters
-    const { fullName, email } = req.body;
+    const { name, email } = req.body;
     const user = await UserService.updateUser(userId, {
-      name: fullName,
+      name,
       email,
     });
     if (!user) {
