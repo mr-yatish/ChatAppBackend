@@ -13,11 +13,13 @@ const upload = multer({ dest: "uploads/" });
 // Define routes
 router.post("/signUp", UserController.signUp); // Register a new user
 router.post("/login", UserController.login); // Register a new user
-router.get("/profile/:id", UserController.getUserByid); // Get user details by ID
+router.get("/profile/:id", authMiddleware, UserController.getUserByid); // Get user details by ID
 router.patch(
   "/profile-photo",
   upload.single("profileImage"),
+  authMiddleware,
   UserController.updateProfilePhoto
 ); // Update profile photo
+router.patch("/update/:id", authMiddleware, UserController.updateUser); // Update user details
 
 module.exports = router;

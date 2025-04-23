@@ -8,7 +8,7 @@ const signUp = async (req, res) => {
   try {
     const { fullName, email, password, confirmPassword } = req.body;
     console.log(fullName, email, password, confirmPassword);
-    
+
     if (!fullName || !email || !password || !confirmPassword) {
       return res.status(400).json({
         status: false,
@@ -117,6 +117,33 @@ const getUserByid = async (req, res) => {
       .json({ status: false, message: error.message, data: false });
   }
 };
+// update user
+const updateUser = async (req, res) => {
+  try {
+    const userId = req.params.id; // Taking user ID from request parameters
+    const { fullName, email } = req.body;
+    const user = await UserService.updateUser(userId, {
+      name: fullName,
+      email,
+    });
+    if (!user) {
+      return res.status(404).json({
+        status: false,
+        message: "User not found",
+        data: false,
+      });
+    }
+    return res.status(200).json({
+      status: true,
+      message: "User updated successfully",
+      data: user,
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ status: false, message: error.message, data: false });
+  }
+};
 
 // Update Profile Photo Controller
 const updateProfilePhoto = async (req, res) => {
@@ -151,4 +178,4 @@ const updateProfilePhoto = async (req, res) => {
     res.status(500).json({ error: "Failed to update profile photo" });
   }
 };
-module.exports = { signUp, login, updateProfilePhoto,getUserByid };
+module.exports = { signUp, login, updateProfilePhoto, getUserByid,updateUser };

@@ -96,5 +96,5 @@ module.exports = {
   updateUser,
   findUserByEmail,
   updateSocketId,
-  updateUserStatus
+  updateUserStatus,
 };

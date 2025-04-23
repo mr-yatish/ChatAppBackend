@@ -16,9 +16,9 @@ connectDB();
 // Initialize Express app
 const app = express();
 
-// Health check route 
+// Health check route
 app.get("/", (req, res) => {
-  res.status(200).send(`Server is running successfully! ${new Date()}`); 
+  res.status(200).send(`Server is running successfully! ${new Date()}`);
 });
 
 // Create an HTTP server
@@ -29,7 +29,6 @@ setupMiddlewares(app);
 
 // Setup API routes
 app.use("/api/users", UserRouter);
-
 
 // Setup WebSocket functionality
 setupSocket(server);
