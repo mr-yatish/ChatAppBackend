@@ -156,9 +156,11 @@ const updateProfilePhoto = async (req, res) => {
       folder: "profile_photos",
     });
     // Update user's profileImage field
+    console.log(result);
+
     const user = await User.findByIdAndUpdate(
       userId,
-      { profileImage: result.display_name },
+      { profileImage: result.display_name + "." + result.format },
       { new: true }
     );
 
@@ -178,4 +180,4 @@ const updateProfilePhoto = async (req, res) => {
     res.status(500).json({ error: "Failed to update profile photo" });
   }
 };
-module.exports = { signUp, login, updateProfilePhoto, getUserByid,updateUser };
+module.exports = { signUp, login, updateProfilePhoto, getUserByid, updateUser };

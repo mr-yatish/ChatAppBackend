@@ -17,7 +17,7 @@ router.get("/profile/:id", authMiddleware, UserController.getUserByid); // Get u
 router.patch(
   "/profile-photo",
   upload.single("profileImage"),
-  authMiddleware,
+  // authMiddleware,
   UserController.updateProfilePhoto
 ); // Update profile photo
 router.patch("/update/:id", authMiddleware, UserController.updateUser); // Update user details
