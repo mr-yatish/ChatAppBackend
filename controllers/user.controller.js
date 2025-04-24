@@ -156,8 +156,6 @@ const updateProfilePhoto = async (req, res) => {
       folder: "profile_photos",
     });
     // Update user's profileImage field
-    console.log(result);
-
     const user = await User.findByIdAndUpdate(
       userId,
       { profileImage: result.display_name + "." + result.format },
