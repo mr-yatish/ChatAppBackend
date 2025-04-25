@@ -45,7 +45,11 @@ const setupSocket = (server) => {
           userId,
           friendId,
         });
-        await newFriend.save();
+        (await newFriend.save()).populate("friendId", {
+          name: 1,
+          email: 1,
+          profileImage: 1,
+        });
         if (friend && friend.socketId) {
           io.to(friend.socketId).emit("friend:request", {
             newFriend,
