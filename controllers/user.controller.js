@@ -178,4 +178,38 @@ const updateProfilePhoto = async (req, res) => {
     res.status(500).json({ error: "Failed to update profile photo" });
   }
 };
-module.exports = { signUp, login, updateProfilePhoto, getUserByid, updateUser };
+
+// search User by name or email
+const searchUser = async (req, res) => {
+  try {
+    const { searchQuery } = req.query;
+    const query = {};
+    query.deleteFlag = false; // Exclude deleted users
+    // If searchQuery is provided, add it to the query object
+    if (searchQuery) {
+      query.$or = [
+        { name: { $regex: searchQuery, $options: "i" } }, // Case-insensitive search by name
+        { email: { $regex: searchQuery, $options: "i" } }, // Case-insensitive search by email
+      ];
+    }
+    const users = await User.find(query).limit(10); // Limit results to 10 users
+    return res.status(200).json({
+      status: true,
+      message: "Users found",
+      data: users,
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ status: false, message: error.message, data: false });
+  }
+};
+
+module.exports = {
+  signUp,
+  login,
+  updateProfilePhoto,
+  getUserByid,
+  updateUser,
+  searchUser,
+};

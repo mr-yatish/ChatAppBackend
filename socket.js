@@ -1,4 +1,5 @@
 const { UserService } = require("./services");
+const { Friends } = require("./models");
 // This file sets up a WebSocket server using Socket.IO
 // and listens for incoming connections. It also handles disconnections.
 const setupSocket = (server) => {
@@ -11,8 +12,6 @@ const setupSocket = (server) => {
   });
 
   io.on("connection", (socket) => {
-    console.log("A user connected", socket.id);
-
     // Handle user socket ID update
     socket.on("user:socketId", async (data) => {
       const { userId } = data;
@@ -33,6 +32,26 @@ const setupSocket = (server) => {
       // Update user status in the database
       if (userId) {
         await UserService.updateUserStatus(userId, status);
+      }
+    });
+
+    // Handle friend request notifications
+    socket.on("friend:request", async (data) => {
+      const { userId, friendId } = data;
+      if (userId && friendId) {
+        const friend = await UserService.getUserById(friendId);
+        if (friend && friend.socketId) {
+          io.to(friend.socketId).emit("friend:request", {
+            userId,
+            friendId,
+          });
+          // Store in Db
+          const newFriend = new Friends({
+            userId,
+            friendId,
+          });
+          await newFriend.save();
+        }
       }
     });
 

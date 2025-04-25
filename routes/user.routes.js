@@ -21,5 +21,6 @@ router.patch(
   UserController.updateProfilePhoto
 ); // Update profile photo
 router.patch("/update/:id", authMiddleware, UserController.updateUser); // Update user details
+router.get("/search", authMiddleware, UserController.searchUser); // Get all users
 
 module.exports = router;
