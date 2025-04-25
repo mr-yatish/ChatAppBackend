@@ -40,17 +40,16 @@ const setupSocket = (server) => {
       const { userId, friendId } = data;
       if (userId && friendId) {
         const friend = await UserService.getUserById(friendId);
+        // Store in Db
+        const newFriend = new Friends({
+          userId,
+          friendId,
+        });
+        await newFriend.save();
         if (friend && friend.socketId) {
           io.to(friend.socketId).emit("friend:request", {
-            userId,
-            friendId,
+            newFriend,
           });
-          // Store in Db
-          const newFriend = new Friends({
-            userId,
-            friendId,
-          });
-          await newFriend.save();
         }
       }
     });
