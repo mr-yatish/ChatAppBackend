@@ -37,24 +37,45 @@ const setupSocket = (server) => {
 
     // Handle friend request notifications
     socket.on("friend:request", async (data) => {
-      const { userId, friendId } = data;
-      if (userId && friendId) {
-        const friend = await UserService.getUserById(friendId);
-        // Store in Db
-        const newFriend = new Friends({
-          userId,
-          friendId,
-        });
-        (await newFriend.save()).populate("friendId", {
-          name: 1,
-          email: 1,
-          profileImage: 1,
-        });
-        if (friend && friend.socketId) {
-          io.to(friend.socketId).emit("friend:request", {
-            newFriend,
+      try {
+        const { userId, friendId } = data;
+        if (userId && friendId) {
+          // Fetch the friend's data
+          const friend = await UserService.getUserById(friendId);
+          if (!friend) {
+            return console.error("Friend not found");
+          }
+
+          // Store the friend request in the database
+          const newFriend = await new Friends({
+            userId,
+            friendId,
+          }).save();
+
+          // Populate the friend's data
+          const populatedFriend = await Friends.findById(
+            newFriend._id
+          ).populate("userId", {
+            name: 1,
+            email: 1,
+            profileImage: 1,
           });
+
+          // Send the friend request notification to the friend if they are online
+          if (friend.socketId) {
+            io.to(friend.socketId).emit("friend:request", {
+              friend: {
+                id: friend._id,
+                name: friend.name,
+                email: friend.email,
+                profileImage: friend.profileImage,
+              },
+              request: populatedFriend,
+            });
+          }
         }
+      } catch (error) {
+        console.error("Error handling friend request:", error.message);
       }
     });
 
