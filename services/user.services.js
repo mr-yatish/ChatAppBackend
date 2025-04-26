@@ -93,7 +93,7 @@ const updateUserStatus = async (userId, status) => {
 const getFriendRequest = async (userId) => {
   try {
     const user = await Friends.find({
-      userId,
+      friendId: userId,
       deleteFlag: false,
       status: "pending",
     });
