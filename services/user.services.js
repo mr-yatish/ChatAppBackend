@@ -96,7 +96,7 @@ const getFriendRequest = async (userId) => {
       friendId: userId,
       deleteFlag: false,
       status: "pending",
-    }).populate("userId", "_id name email profilePicture");
+    }).populate("userId", "_id name email profileImage");
     if (!user) {
       return false;
     }
