@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Friends } = require("../models");
 
 const createUser = async (user) => {
   try {
@@ -90,6 +90,38 @@ const updateUserStatus = async (userId, status) => {
   }
 };
 
+const getFriendRequest = async (userId) => {
+  try {
+    const user = await Friends.find({
+      userId,
+      deleteFlag: false,
+      status: "pending",
+    });
+    if (!user) {
+      return false;
+    }
+    return user.friendRequests;
+  } catch (error) {
+    return false;
+  }
+};
+
+const getFriends = async (userId) => {
+  try {
+    const friends = await Friends.find({
+      userId,
+      deleteFlag: false,
+      status: "accepted",
+    }).populate("friendId", "_id name email profilePicture");
+    if (!friends) {
+      return false;
+    }
+    return friends;
+  } catch (error) {
+    return false;
+  }
+};
+
 module.exports = {
   createUser,
   getUserById,
@@ -97,4 +129,6 @@ module.exports = {
   findUserByEmail,
   updateSocketId,
   updateUserStatus,
+  getFriendRequest,
+  getFriends,
 };

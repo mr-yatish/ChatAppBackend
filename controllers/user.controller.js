@@ -205,6 +205,30 @@ const searchUser = async (req, res) => {
   }
 };
 
+// Get FriendRequest
+const getFriendRequest = async (req, res) => {
+  try {
+    const userId = req.params.id; // Taking user ID from request parameters
+    const friendRequests = await UserService.getFriendRequest(userId);
+    if (!friendRequests) {
+      return res.status(404).json({
+        status: false,
+        message: "No friend requests found",
+        data: false,
+      });
+    }
+    return res.status(200).json({
+      status: true,
+      message: "Friend requests found",
+      data: friendRequests,
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ status: false, message: error.message, data: false });
+  }
+};
+
 module.exports = {
   signUp,
   login,
@@ -212,4 +236,5 @@ module.exports = {
   getUserByid,
   updateUser,
   searchUser,
+  getFriendRequest,
 };

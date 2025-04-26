@@ -22,5 +22,9 @@ router.patch(
 ); // Update profile photo
 router.patch("/update/:id", authMiddleware, UserController.updateUser); // Update user details
 router.get("/search", authMiddleware, UserController.searchUser); // Get all users
-
+router.get(
+  "/friend-request/:id",
+  authMiddleware,
+  UserController.getFriendRequest
+); // Get friend requests for a user
 module.exports = router;
