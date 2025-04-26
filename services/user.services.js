@@ -100,7 +100,7 @@ const getFriendRequest = async (userId) => {
     if (!user) {
       return false;
     }
-    return user.friendRequests;
+    return user;
   } catch (error) {
     return false;
   }
