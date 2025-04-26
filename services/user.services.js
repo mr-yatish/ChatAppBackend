@@ -106,6 +106,22 @@ const getFriendRequest = async (userId) => {
   }
 };
 
+const getSentFriendRequest = async (userId) => {
+  try {
+    const user = await Friends.find({
+      userId,
+      deleteFlag: false,
+      status: "pending",
+    }).populate("friendId", "_id name email profileImage");
+    if (!user) {
+      return false;
+    }
+    return user;
+  } catch (error) {
+    return false;
+  }
+};
+
 const getFriends = async (userId) => {
   try {
     const friends = await Friends.find({
@@ -131,4 +147,5 @@ module.exports = {
   updateUserStatus,
   getFriendRequest,
   getFriends,
+  getSentFriendRequest,
 };

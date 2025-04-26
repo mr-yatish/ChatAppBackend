@@ -27,4 +27,10 @@ router.get(
   authMiddleware,
   UserController.getFriendRequest
 ); // Get friend requests for a user
+router.get(
+  "/sent-friend-request/:id",
+  authMiddleware,
+  UserController.getSentFriendRequest
+); // Get sent friend requests for a user
+router.get("/friends/:id", authMiddleware, UserController.getFriends); // Get friends for a user
 module.exports = router;
