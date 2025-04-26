@@ -64,13 +64,7 @@ const setupSocket = (server) => {
           // Send the friend request notification to the friend if they are online
           if (friend.socketId) {
             io.to(friend.socketId).emit("friend:request", {
-              friend: {
-                id: friend._id,
-                name: friend.name,
-                email: friend.email,
-                profileImage: friend.profileImage,
-              },
-              request: populatedFriend,
+             newFriend: populatedFriend,
             });
           }
         }
