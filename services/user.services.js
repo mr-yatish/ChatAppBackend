@@ -128,7 +128,7 @@ const getFriends = async (userId) => {
       userId,
       deleteFlag: false,
       status: "accepted",
-    }).populate("friendId", "_id name email profilePicture");
+    })
     if (!friends) {
       return false;
     }
