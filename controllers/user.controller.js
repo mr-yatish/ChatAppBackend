@@ -278,10 +278,9 @@ const getFriends = async (req, res) => {
 // update friend request
 const updateFriendRequest = async (req, res) => {
   try {
-    const { userId, friendId, status, deleteFlag } = req.body; // Taking user ID and friend ID from request body
+    const { _id, status, deleteFlag } = req.body; // Taking user ID and friend ID from request body
     const updatedUser = await UserService.updateFriendRequest(
-      userId,
-      friendId,
+      _id,
       status,
       deleteFlag
     );

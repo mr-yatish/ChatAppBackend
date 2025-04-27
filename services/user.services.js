@@ -138,15 +138,10 @@ const getFriends = async (userId) => {
   }
 };
 
-const updateFriendRequest = async (
-  userId,
-  friendId,
-  status,
-  deleteFlag = false
-) => {
+const updateFriendRequest = async (_id, status, deleteFlag = false) => {
   try {
     const updatedRequest = await Friends.findOneAndUpdate(
-      { userId, friendId, deleteFlag: false },
+      { _id, deleteFlag: false },
       { status, deleteFlag },
       { new: true }
     );
