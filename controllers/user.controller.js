@@ -275,6 +275,35 @@ const getFriends = async (req, res) => {
   }
 };
 
+// update friend request
+const updateFriendRequest = async (req, res) => {
+  try {
+    const { userId, friendId, status, deleteFlag } = req.body; // Taking user ID and friend ID from request body
+    const updatedUser = await UserService.updateFriendRequest(
+      userId,
+      friendId,
+      status,
+      deleteFlag
+    );
+    if (!updatedUser) {
+      return res.status(404).json({
+        status: false,
+        message: "User not found",
+        data: false,
+      });
+    }
+    return res.status(200).json({
+      status: true,
+      message: "Friend request updated successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ status: false, message: error.message, data: false });
+  }
+};
+
 module.exports = {
   signUp,
   login,
@@ -285,4 +314,5 @@ module.exports = {
   getFriendRequest,
   getSentFriendRequest,
   getFriends,
+  updateFriendRequest
 };

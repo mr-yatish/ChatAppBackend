@@ -33,4 +33,10 @@ router.get(
   UserController.getSentFriendRequest
 ); // Get sent friend requests for a user
 router.get("/friends/:id", authMiddleware, UserController.getFriends); // Get friends for a user
+router.post(
+  "/update-friend-request",
+  authMiddleware,
+  UserController.updateFriendRequest
+); // Update friend request status
+
 module.exports = router;

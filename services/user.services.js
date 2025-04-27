@@ -128,11 +128,32 @@ const getFriends = async (userId) => {
       userId,
       deleteFlag: false,
       status: "accepted",
-    })
+    });
     if (!friends) {
       return false;
     }
     return friends;
+  } catch (error) {
+    return false;
+  }
+};
+
+const updateFriendRequest = async (
+  userId,
+  friendId,
+  status,
+  deleteFlag = false
+) => {
+  try {
+    const updatedRequest = await Friends.findOneAndUpdate(
+      { userId, friendId, deleteFlag: false },
+      { status, deleteFlag },
+      { new: true }
+    );
+    if (!updatedRequest) {
+      return false;
+    }
+    return updatedRequest;
   } catch (error) {
     return false;
   }
@@ -148,4 +169,5 @@ module.exports = {
   getFriendRequest,
   getFriends,
   getSentFriendRequest,
+  updateFriendRequest,
 };
