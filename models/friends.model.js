@@ -14,7 +14,7 @@ const friendsSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["pending", "accepted", "rejected"],
+      enum: ["pending", "accepted", "rejected", "blocked"],
       default: "pending",
     },
     deleteFlag: {
@@ -27,4 +27,4 @@ const friendsSchema = new mongoose.Schema(
 
 const Friends = mongoose.model("Friends", friendsSchema);
 
-module.exports=Friends
+module.exports = Friends;
