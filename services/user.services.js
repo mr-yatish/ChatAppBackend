@@ -128,7 +128,9 @@ const getFriends = async (userId) => {
       userId,
       deleteFlag: false,
       status: "accepted",
-    });
+    })
+      .select("friendId")
+      .populate("friendId");
     if (!friends) {
       return false;
     }
